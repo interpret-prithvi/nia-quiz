@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rapid Fire Round – NIA Quiz</title>
+  <link rel="icon" type="image/png" href="../nia.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:       #0B2E59;
+      --navy-dark:  #071e3d;
+      --navy-light: #d6e4f7;
+      --crimson:    #B22222;
+      --white:      #ffffff;
+      --gray-bg:    #f4f6f9;
+      --gray-light: #e8ecf1;
+      --gray-mid:   #c5cdd8;
+      --gray-text:  #5a6a7e;
+      --text-dark:  #0d1b2a;
+      --success:    #1a7a3c;
+      --success-bg: #d4edda;
+      --font:       'Noto Sans Devanagari', 'Segoe UI', 'Arial Unicode MS', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--gray-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .back-btn {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: var(--crimson);
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: #8b1a1a; }
+
+    .topbar-divider { opacity: 0.3; }
+
+    .topbar-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .btn-scoreboard {
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: var(--white);
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-scoreboard:hover { background: rgba(255,255,255,0.22); }
+
+    /* ── PAGE LAYOUT ── */
+    .page-body {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 0;
+      flex: 1;
+      min-height: calc(100vh - 52px);
+    }
+
+    @media (max-width: 768px) {
+      .page-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── CENTER: TITLE AREA ── */
+    .center-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      background: var(--white);
+      border-right: 1px solid var(--gray-light);
+    }
+
+    .round-title-card {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .round-icon {
+      font-size: 4rem;
+      line-height: 1;
+    }
+
+    .round-title-text {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      color: var(--navy);
+      letter-spacing: 1px;
+      line-height: 1.2;
+    }
+
+    .round-subtitle {
+      font-size: 1rem;
+      color: var(--gray-text);
+      font-weight: 500;
+    }
+
+    .round-divider {
+      width: 80px;
+      height: 4px;
+      background: var(--crimson);
+      border-radius: 2px;
+    }
+
+    /* ── RIGHT: SCORE PANEL ── */
+    .score-panel {
+      background: var(--white);
+      border-left: 1px solid var(--gray-light);
+      overflow-y: auto;
+      padding: 1rem 1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .score-panel-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gray-text);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .schools-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex: 1;
+    }
+
+    .school-row {
+      background: var(--gray-bg);
+      border: 1px solid var(--gray-light);
+      border-radius: 8px;
+      padding: 0.75rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .school-name-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.2rem;
+    }
+
+    .school-name-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+
+    .school-score-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .school-total {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .score-label {
+      font-size: 0.7rem;
+      color: var(--gray-text);
+      white-space: nowrap;
+    }
+
+    .score-add-input {
+      width: 60px;
+      border: 1.5px solid var(--gray-light);
+      border-radius: 5px;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: var(--font);
+      text-align: center;
+      background: var(--white);
+      color: var(--text-dark);
+      transition: border-color 0.2s;
+    }
+    .score-add-input:focus {
+      outline: none;
+      border-color: var(--crimson);
+    }
+
+    .btn-add-score {
+      padding: 0.35rem 0.65rem;
+      background: var(--crimson);
+      color: var(--white);
+      border: none;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .btn-add-score:hover { background: #8b1a1a; }
+
+    .flash-green { animation: flashGreen 0.5s ease; }
+
+    @keyframes flashGreen {
+      0%   { background: var(--success-bg); }
+      100% { background: var(--gray-bg); }
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      padding: 0.9rem 1.5rem;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="../index.html" class="back-btn">← Main Page</a>
+      <span class="topbar-divider">|</span>
+      <span class="topbar-title">Rapid Fire Round</span>
+    </div>
+    <a href="scoreboard.html" class="btn-scoreboard" target="_blank">📊 Leaderboard</a>
+  </header>
+
+  <div class="page-body">
+
+    <!-- CENTER: ROUND TITLE -->
+    <main class="center-panel">
+      <div class="round-title-card">
+        <div class="round-icon">⚡</div>
+        <div class="round-divider"></div>
+        <div class="round-title-text">Rapid Fire Round</div>
+        <p class="round-subtitle">Round 4 &nbsp;·&nbsp; NIA Koshi Province Quiz Competition – २०८३</p>
+      </div>
+    </main>
+
+    <!-- RIGHT: SCORE ENTRY -->
+    <aside class="score-panel">
+      <div class="score-panel-title">Score Entry</div>
+      <div class="schools-list" id="schoolsList">
+        <!-- Injected by JS -->
+      </div>
+    </aside>
+
+  </div>
+
+  <footer class="site-footer">
+    Nepal Insurance Authority (NIA) &nbsp;|&nbsp; Koshi Province Office &nbsp;|&nbsp; Quiz Competition Management System
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* Fixed school registry — same IDs as all other rounds */
+      var SCHOOLS = [
+        { id: 1, name: 'Shree Pokhariya Secondary School' },
+        { id: 2, name: 'Birat Campus Biratnagar' },
+        { id: 3, name: 'Shiksha Deep Boarding Secondary School' },
+        { id: 4, name: 'City Secondary School' },
+        { id: 5, name: 'Merryland Secondary School' },
+        { id: 6, name: 'Siddhartha Shishu Sadan' }
+      ];
+
+      var TEAMS_KEY = 'quizTeams'; // shared key — same as all rounds
+      var teams = [];
+
+      /* ── LOAD ── */
+      function loadTeams() {
+        try {
+          var raw = localStorage.getItem(TEAMS_KEY);
+          if (raw) teams = JSON.parse(raw);
+        } catch (_) {}
+
+        SCHOOLS.forEach(function (school) {
+          var exists = teams.find(function (t) { return t.id === school.id; });
+          if (!exists) teams.push({ id: school.id, name: school.name, score: 0 });
+        });
+
+        saveTeams();
+      }
+
+      function saveTeams() {
+        localStorage.setItem(TEAMS_KEY, JSON.stringify(teams));
+      }
+
+      function getTeamById(id) {
+        return teams.find(function (t) { return t.id === id; });
+      }
+
+      /* ── BUILD SCORE PANEL ── */
+      function buildSchoolsPanel() {
+        var schoolsList = document.getElementById('schoolsList');
+        schoolsList.innerHTML = '';
+
+        SCHOOLS.forEach(function (school) {
+          var team = getTeamById(school.id);
+
+          var row = document.createElement('div');
+          row.className = 'school-row';
+          row.id        = 'school-row-' + school.id;
+          row.setAttribute('data-school-id', school.id);
+
+          var nameRow = document.createElement('div');
+          nameRow.className = 'school-name-row';
+          var nameLabel = document.createElement('span');
+          nameLabel.className   = 'school-name-label';
+          nameLabel.textContent = school.name;
+          nameRow.appendChild(nameLabel);
+
+          var scoreRow = document.createElement('div');
+          scoreRow.className = 'school-score-row';
+
+          var totalSpan = document.createElement('span');
+          totalSpan.className   = 'school-total';
+          totalSpan.id          = 'total-' + school.id;
+          totalSpan.textContent = team ? team.score : 0;
+
+          var ptsLabel = document.createElement('span');
+          ptsLabel.className   = 'score-label';
+          ptsLabel.textContent = 'pts';
+
+          var addInput = document.createElement('input');
+          addInput.type        = 'number';
+          addInput.className   = 'score-add-input';
+          addInput.placeholder = '+pts';
+          addInput.min         = '0';
+
+          var addBtn = document.createElement('button');
+          addBtn.type        = 'button';
+          addBtn.className   = 'btn-add-score';
+          addBtn.textContent = '+ Add';
+
+          (function (sid, inp) {
+            addBtn.addEventListener('click', function () { addScore(sid, inp); });
+            inp.addEventListener('keydown', function (e) {
+              if (e.key === 'Enter') addScore(sid, inp);
+            });
+          })(school.id, addInput);
+
+          scoreRow.appendChild(totalSpan);
+          scoreRow.appendChild(ptsLabel);
+          scoreRow.appendChild(addInput);
+          scoreRow.appendChild(addBtn);
+
+          row.appendChild(nameRow);
+          row.appendChild(scoreRow);
+          schoolsList.appendChild(row);
+        });
+      }
+
+      /* ── ADD SCORE ── */
+      function addScore(schoolId, inputEl) {
+        var val = parseInt(inputEl.value, 10);
+        if (isNaN(val) || val < 0) { inputEl.value = ''; return; }
+
+        var team = getTeamById(schoolId);
+        if (!team) return;
+
+        team.score += val;
+        saveTeams();
+
+        var totalSpan = document.getElementById('total-' + schoolId);
+        if (totalSpan) totalSpan.textContent = team.score;
+
+        var row = document.getElementById('school-row-' + schoolId);
+        if (row) {
+          row.classList.remove('flash-green');
+          void row.offsetWidth;
+          row.classList.add('flash-green');
+        }
+
+        inputEl.value = '';
+        inputEl.focus();
+      }
+
+      /* ── INIT ── */
+      function init() {
+        loadTeams();
+        buildSchoolsPanel();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+  </script>
+
+</body>
+</html>

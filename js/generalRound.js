@@ -180,7 +180,7 @@
   var DONE_KEY  = 'generalDone';
 
   /* ─── State ─── */
-  var currentQ       = 0;
+  var currentQ       = -1;   // -1 = intro slide (button 0)
   var doneSet        = new Set();
   var answerVisible  = false; // tracks if answer is currently shown
   var teams          = [];
@@ -265,9 +265,33 @@
 
   /* ═══════════════════════════════════════
      QUESTION NAVIGATOR GRID
+     Button 0 = intro slide ("General Round" title)
+     Buttons 1–30 = actual questions
   ═══════════════════════════════════════ */
   function buildGrid() {
     qGrid.innerHTML = '';
+
+    // Button 0 — intro slide
+    var introWrap = document.createElement('div');
+    introWrap.className = 'q-btn-wrap';
+    introWrap.setAttribute('data-idx', -1);
+
+    var introCircle = document.createElement('button');
+    introCircle.type      = 'button';
+    introCircle.className = 'q-circle';
+    introCircle.style.visibility = 'hidden'; // no done-circle for intro
+    introWrap.appendChild(introCircle);
+
+    var introBtn = document.createElement('button');
+    introBtn.type      = 'button';
+    introBtn.className = 'q-btn intro-btn' + (currentQ === -1 ? ' active' : '');
+    introBtn.textContent = '0';
+    introBtn.title = 'General Round – Intro';
+    introBtn.addEventListener('click', function () { goTo(-1); });
+    introWrap.appendChild(introBtn);
+    qGrid.appendChild(introWrap);
+
+    // Buttons 1–30
     for (var i = 0; i < TOTAL_Q; i++) {
       (function (idx) {
         var wrap = document.createElement('div');
@@ -304,6 +328,13 @@
       var idx    = parseInt(wrap.getAttribute('data-idx'));
       var circle = wrap.querySelector('.q-circle');
       var btn    = wrap.querySelector('.q-btn');
+
+      if (idx === -1) {
+        // intro button — just track active state
+        btn.className = 'q-btn intro-btn' + (currentQ === -1 ? ' active' : '');
+        return;
+      }
+
       var isDone   = doneSet.has(idx);
       var isActive = idx === currentQ;
       circle.className = 'q-circle' + (isDone ? ' done' : '');
@@ -320,11 +351,13 @@
 
   /* ═══════════════════════════════════════
      NAVIGATE TO QUESTION
+     idx === -1 → intro slide
+     idx 0–29  → actual questions
   ═══════════════════════════════════════ */
   function goTo(idx) {
-    if (idx < 0 || idx >= TOTAL_Q) return;
+    if (idx < -1 || idx >= TOTAL_Q) return;
     currentQ = idx;
-    // Always hide answer when moving to a new question
+    // Always hide answer when changing slide
     answerBox.style.display = 'none';
     showAnsBtn.textContent  = '👁 Show Answer';
     showAnsBtn.classList.remove('btn-ans-active');
@@ -335,6 +368,18 @@
   }
 
   function renderQuestion() {
+    if (currentQ === -1) {
+      // ── Intro slide ──
+      qLabel.textContent       = 'General Round';
+      qNumber.textContent      = '';
+      questionText.textContent = 'General Round';
+      questionText.classList.add('intro-title');
+      showAnsBtn.style.display = 'none';
+      return;
+    }
+    // ── Normal question ──
+    questionText.classList.remove('intro-title');
+    showAnsBtn.style.display = '';
     var q = QUESTIONS[currentQ];
     qLabel.textContent       = 'Q' + (currentQ + 1) + ' / ' + TOTAL_Q;
     qNumber.textContent      = 'Question ' + (currentQ + 1);
@@ -342,7 +387,7 @@
   }
 
   function updateNavBtns() {
-    prevBtn.disabled = currentQ === 0;
+    prevBtn.disabled = currentQ === -1;
     nextBtn.disabled = currentQ === TOTAL_Q - 1;
   }
 

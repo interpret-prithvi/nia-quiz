@@ -244,6 +244,56 @@
       font-style: italic;
     }
 
+    /* ── SHOW ANSWER KEY BUTTON ── */
+    .btn-show-answer-key {
+      padding: 0.6rem 1.4rem;
+      background: var(--white);
+      border: 2px solid var(--navy);
+      border-radius: 8px;
+      color: var(--navy);
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: background 0.2s, color 0.2s;
+      align-self: flex-start;
+    }
+    .btn-show-answer-key:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .btn-show-answer-key.active {
+      background: #1a7a3c;
+      border-color: #1a7a3c;
+      color: var(--white);
+    }
+
+    /* ── ANSWER KEY SECTION ── */
+    .answer-key-wrap {
+      width: 100%;
+      border-top: 2px solid #1a7a3c;
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      animation: fadeInDown 0.3s ease;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .answer-key-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #1a7a3c;
+      align-self: flex-start;
+    }
+
     /* ── LIGHTBOX ── */
     .lightbox {
       display: none;
@@ -314,13 +364,29 @@
       <!-- Crossword Image -->
       <div class="crossword-wrap">
         <img
-          src="../crossword.png"
+          src="../crossword.jpeg"
           alt="Crossword Puzzle"
           class="crossword-img"
           id="crosswordImg"
-          onerror="this.alt='Image not found. Make sure crossword.png is in the quiz-competition folder.'; this.style.padding='2rem'; this.style.background='#f4f6f9'; this.style.color='#5a6a7e';"
+          onerror="this.alt='Image not found. Make sure crossword.jpeg is in the quiz-competition folder.'; this.style.padding='2rem'; this.style.background='#f4f6f9';"
         />
         <p class="zoom-hint">Click on the image to zoom in</p>
+
+        <!-- Show Answer Key button -->
+        <button class="btn-show-answer-key" id="showAnswerKeyBtn" type="button">👁 Show Answer Key</button>
+
+        <!-- Answer Key Image — hidden until clicked -->
+        <div class="answer-key-wrap" id="answerKeyWrap" style="display:none;">
+          <div class="answer-key-label">उत्तर / Answer Key</div>
+          <img
+            src="../answerkey.jpeg"
+            alt="Crossword Answer Key"
+            class="crossword-img"
+            id="answerKeyImg"
+            onerror="this.alt='Answer key image not found. Make sure answerkey.jpeg is in the quiz-competition folder.'; this.style.padding='2rem';"
+          />
+          <p class="zoom-hint">Click on the answer key to zoom in</p>
+        </div>
       </div>
 
       <!-- Rules Sidebar -->
@@ -371,7 +437,7 @@
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
-    <img src="../crossword.png" alt="Crossword Puzzle Zoomed" />
+    <img id="lightboxImg" src="" alt="Zoomed Image" />
   </div>
 
   <!-- FOOTER -->
@@ -380,14 +446,45 @@
   </footer>
 
   <script>
-    var img      = document.getElementById('crosswordImg');
-    var lightbox = document.getElementById('lightbox');
-    var closeBtn = document.getElementById('lightboxClose');
+    var crosswordImg    = document.getElementById('crosswordImg');
+    var answerKeyImg    = document.getElementById('answerKeyImg');
+    var answerKeyWrap   = document.getElementById('answerKeyWrap');
+    var showAnswerKeyBtn = document.getElementById('showAnswerKeyBtn');
+    var lightbox        = document.getElementById('lightbox');
+    var lightboxImg     = document.getElementById('lightboxImg');
+    var closeBtn        = document.getElementById('lightboxClose');
+    var answerVisible   = false;
 
-    img.addEventListener('click', function () {
+    // Crossword image click → zoom
+    crosswordImg.addEventListener('click', function () {
+      lightboxImg.src = '../crossword.jpeg';
       lightbox.classList.add('open');
     });
 
+    // Answer key image click → zoom
+    if (answerKeyImg) {
+      answerKeyImg.addEventListener('click', function () {
+        lightboxImg.src = '../answerkey.jpeg';
+        lightbox.classList.add('open');
+      });
+    }
+
+    // Show / hide answer key toggle
+    showAnswerKeyBtn.addEventListener('click', function () {
+      if (answerVisible) {
+        answerKeyWrap.style.display = 'none';
+        showAnswerKeyBtn.textContent = '👁 Show Answer Key';
+        showAnswerKeyBtn.classList.remove('active');
+        answerVisible = false;
+      } else {
+        answerKeyWrap.style.display = 'flex';
+        showAnswerKeyBtn.textContent = '🙈 Hide Answer Key';
+        showAnswerKeyBtn.classList.add('active');
+        answerVisible = true;
+      }
+    });
+
+    // Close lightbox
     closeBtn.addEventListener('click', function () {
       lightbox.classList.remove('open');
     });

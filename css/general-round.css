@@ -345,6 +345,29 @@ html, body {
   color: var(--white);
 }
 
+/* Intro title shown when button 0 is active */
+.intro-title {
+  font-size: 2.2rem !important;
+  font-weight: 900 !important;
+  color: var(--navy) !important;
+  text-align: center;
+  padding: 3rem 1rem;
+  letter-spacing: 1px;
+}
+
+/* Button 0 — intro/title button, slightly different look */
+.q-btn.intro-btn {
+  background: var(--navy-light);
+  border-color: var(--navy);
+  color: var(--navy);
+  font-weight: 900;
+}
+.q-btn.intro-btn.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+
 /* Nav buttons */
 .question-nav-btns {
   display: flex;
