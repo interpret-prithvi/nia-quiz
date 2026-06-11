@@ -267,21 +267,70 @@ html, body {
   color: var(--crimson);
 }
 
-.q-direction {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--navy);
-  background: var(--navy-light);
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-}
-
 .question-text {
   font-size: 1.45rem;
   font-weight: 600;
   line-height: 1.7;
   color: var(--text-dark);
   min-height: 120px;
+}
+
+/* ── Answer Box ── */
+.answer-box {
+  margin-top: 1.5rem;
+  background: #f0faf4;
+  border: 1.5px solid var(--success);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.answer-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--success);
+  margin-bottom: 0.4rem;
+}
+
+.answer-text {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+
+/* ── Show Answer Button ── */
+.btn-show-answer {
+  margin-top: 1.25rem;
+  padding: 0.6rem 1.4rem;
+  background: var(--white);
+  border: 2px solid var(--navy);
+  border-radius: 8px;
+  color: var(--navy);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-show-answer:hover {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.btn-show-answer.btn-ans-active {
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--white);
 }
 
 /* Nav buttons */

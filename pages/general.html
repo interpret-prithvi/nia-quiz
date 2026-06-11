@@ -47,11 +47,16 @@
       <div class="question-card">
         <div class="question-meta">
           <span class="q-number" id="qNumber">Question 1</span>
-          <span class="q-direction" id="qDirection">Clockwise · Team 1</span>
         </div>
-        <div class="question-text" id="questionText">
-          <!-- Question loaded by JS -->
+        <div class="question-text" id="questionText"></div>
+
+        <!-- Answer — hidden until button clicked -->
+        <div class="answer-box" id="answerBox" style="display:none;">
+          <span class="answer-label">उत्तर / Answer</span>
+          <div class="answer-text" id="answerText"></div>
         </div>
+
+        <button class="btn-show-answer" id="showAnsBtn" type="button">👁 Show Answer</button>
       </div>
 
       <div class="question-nav-btns">
