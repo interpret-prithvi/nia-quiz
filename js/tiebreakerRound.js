@@ -57,7 +57,7 @@
   var DONE_KEY  = 'tiebreakerDone';  // separate done-set from general round
 
   /* ─── State ─── */
-  var currentQ      = 0;
+  var currentQ      = -1;   // -1 = intro slide (button 0)
   var doneSet       = new Set();
   var answerVisible = false;
   var teams         = [];
@@ -78,7 +78,7 @@
      PREV / NEXT
   ═══════════════════════════════════════ */
   prevBtn.addEventListener('click', function () {
-    if (currentQ > 0) goTo(currentQ - 1);
+    if (currentQ > -1) goTo(currentQ - 1);
   });
 
   nextBtn.addEventListener('click', function () {
@@ -141,9 +141,33 @@
 
   /* ═══════════════════════════════════════
      QUESTION NAVIGATOR GRID
+     Button 0 = intro slide ("Tie-Breaker" title)
+     Buttons 1–5 = actual questions
   ═══════════════════════════════════════ */
   function buildGrid() {
     qGrid.innerHTML = '';
+
+    // Button 0 — intro slide
+    var introWrap = document.createElement('div');
+    introWrap.className = 'q-btn-wrap';
+    introWrap.setAttribute('data-idx', -1);
+
+    var introCircle = document.createElement('button');
+    introCircle.type      = 'button';
+    introCircle.className = 'q-circle';
+    introCircle.style.visibility = 'hidden'; // no done-circle for intro
+    introWrap.appendChild(introCircle);
+
+    var introBtn = document.createElement('button');
+    introBtn.type      = 'button';
+    introBtn.className = 'q-btn intro-btn' + (currentQ === -1 ? ' active' : '');
+    introBtn.textContent = '0';
+    introBtn.title = 'Tie-Breaker – Intro';
+    introBtn.addEventListener('click', function () { goTo(-1); });
+    introWrap.appendChild(introBtn);
+    qGrid.appendChild(introWrap);
+
+    // Buttons 1–5
     for (var i = 0; i < TOTAL_Q; i++) {
       (function (idx) {
         var wrap = document.createElement('div');
@@ -180,6 +204,12 @@
       var idx    = parseInt(wrap.getAttribute('data-idx'));
       var circle = wrap.querySelector('.q-circle');
       var btn    = wrap.querySelector('.q-btn');
+
+      if (idx === -1) {
+        btn.className = 'q-btn intro-btn' + (currentQ === -1 ? ' active' : '');
+        return;
+      }
+
       var isDone   = doneSet.has(idx);
       var isActive = idx === currentQ;
       circle.className = 'q-circle' + (isDone ? ' done' : '');
@@ -198,7 +228,7 @@
      NAVIGATE
   ═══════════════════════════════════════ */
   function goTo(idx) {
-    if (idx < 0 || idx >= TOTAL_Q) return;
+    if (idx < -1 || idx >= TOTAL_Q) return;
     currentQ = idx;
     answerBox.style.display = 'none';
     showAnsBtn.textContent  = '👁 Show Answer';
@@ -210,6 +240,18 @@
   }
 
   function renderQuestion() {
+    if (currentQ === -1) {
+      // ── Intro slide ──
+      qLabel.textContent       = 'Tie-Breaker';
+      qNumber.textContent      = '';
+      questionText.textContent = 'Tie-Breaker';
+      questionText.classList.add('intro-title');
+      showAnsBtn.style.display = 'none';
+      return;
+    }
+    // ── Normal question ──
+    questionText.classList.remove('intro-title');
+    showAnsBtn.style.display = '';
     var q = QUESTIONS[currentQ];
     qLabel.textContent       = 'Q' + (currentQ + 1) + ' / ' + TOTAL_Q;
     qNumber.textContent      = 'Question ' + (currentQ + 1);
@@ -217,7 +259,7 @@
   }
 
   function updateNavBtns() {
-    prevBtn.disabled = currentQ === 0;
+    prevBtn.disabled = currentQ === -1;
     nextBtn.disabled = currentQ === TOTAL_Q - 1;
   }
 

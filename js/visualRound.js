@@ -57,7 +57,7 @@
   var DONE_KEY  = 'visualDone';
 
   /* ─── State ─── */
-  var currentQ      = 0;
+  var currentQ      = -1;   // -1 = intro slide (button 0)
   var doneSet       = new Set();
   var answerVisible = false;
   var teams         = [];
@@ -79,7 +79,7 @@
      PREV / NEXT
   ═══════════════════════════════════════ */
   prevBtn.addEventListener('click', function () {
-    if (currentQ > 0) goTo(currentQ - 1);
+    if (currentQ > -1) goTo(currentQ - 1);
   });
 
   nextBtn.addEventListener('click', function () {
@@ -169,9 +169,33 @@
 
   /* ═══════════════════════════════════════
      QUESTION NAVIGATOR GRID
+     Button 0 = intro slide ("Visual Round" title)
+     Buttons 1–16 = actual questions
   ═══════════════════════════════════════ */
   function buildGrid() {
     qGrid.innerHTML = '';
+
+    // Button 0 — intro slide
+    var introWrap = document.createElement('div');
+    introWrap.className = 'q-btn-wrap';
+    introWrap.setAttribute('data-idx', -1);
+
+    var introCircle = document.createElement('button');
+    introCircle.type      = 'button';
+    introCircle.className = 'q-circle';
+    introCircle.style.visibility = 'hidden'; // no done-circle for intro
+    introWrap.appendChild(introCircle);
+
+    var introBtn = document.createElement('button');
+    introBtn.type      = 'button';
+    introBtn.className = 'q-btn intro-btn' + (currentQ === -1 ? ' active' : '');
+    introBtn.textContent = '0';
+    introBtn.title = 'Visual Round – Intro';
+    introBtn.addEventListener('click', function () { goTo(-1); });
+    introWrap.appendChild(introBtn);
+    qGrid.appendChild(introWrap);
+
+    // Buttons 1–16
     for (var i = 0; i < TOTAL_Q; i++) {
       (function (idx) {
         var wrap = document.createElement('div');
@@ -208,6 +232,12 @@
       var idx    = parseInt(wrap.getAttribute('data-idx'), 10);
       var circle = wrap.querySelector('.q-circle');
       var btn    = wrap.querySelector('.q-btn');
+
+      if (idx === -1) {
+        btn.className = 'q-btn intro-btn' + (currentQ === -1 ? ' active' : '');
+        return;
+      }
+
       var isDone   = doneSet.has(idx);
       var isActive = idx === currentQ;
       circle.className = 'q-circle' + (isDone ? ' done' : '');
@@ -226,7 +256,7 @@
      NAVIGATE
   ═══════════════════════════════════════ */
   function goTo(idx) {
-    if (idx < 0 || idx >= TOTAL_Q) return;
+    if (idx < -1 || idx >= TOTAL_Q) return;
     currentQ = idx;
     hideAnswer();
     renderQuestion();
@@ -235,6 +265,23 @@
   }
 
   function renderQuestion() {
+    if (currentQ === -1) {
+      // ── Intro slide ──
+      qLabel.textContent       = 'Visual Round';
+      qNumber.textContent      = 'Visual Round';
+      qNumber.classList.add('intro-title');
+      questionImg.src          = '';
+      questionImg.alt          = '';
+      var imgWrap = document.getElementById('questionImgWrap');
+      if (imgWrap) imgWrap.style.display = 'none';
+      showAnsBtn.style.display = 'none';
+      return;
+    }
+    // ── Normal question ──
+    qNumber.classList.remove('intro-title');
+    showAnsBtn.style.display = '';
+    var imgWrap = document.getElementById('questionImgWrap');
+    if (imgWrap) imgWrap.style.display = '';
     var q = QUESTIONS[currentQ];
     qLabel.textContent  = 'Q' + (currentQ + 1) + ' / ' + TOTAL_Q;
     qNumber.textContent = 'Question ' + (currentQ + 1);
@@ -245,7 +292,7 @@
   }
 
   function updateNavBtns() {
-    prevBtn.disabled = currentQ === 0;
+    prevBtn.disabled = currentQ === -1;
     nextBtn.disabled = currentQ === TOTAL_Q - 1;
   }
 
