@@ -267,6 +267,18 @@ html, body {
   color: var(--crimson);
 }
 
+/* Tie-breaker badge shown next to question number */
+.tb-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--crimson);
+  color: var(--white);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 .question-text {
   font-size: 1.45rem;
   font-weight: 600;

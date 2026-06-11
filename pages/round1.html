@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Round 1 – NIA Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:       #0B2E59;
+      --navy-dark:  #071e3d;
+      --navy-light: #d6e4f7;
+      --crimson:    #B22222;
+      --white:      #ffffff;
+      --gray-bg:    #f4f6f9;
+      --gray-light: #e8ecf1;
+      --gray-text:  #5a6a7e;
+      --text-dark:  #0d1b2a;
+      --font:       'Noto Sans Devanagari', 'Segoe UI', 'Arial Unicode MS', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--gray-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+
+    .back-btn {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+    .back-btn:hover { opacity: 1; }
+
+    .topbar-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .topbar-divider { opacity: 0.3; }
+
+    .btn-scoreboard {
+      background: var(--crimson);
+      color: var(--white);
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-scoreboard:hover { background: #8b1a1a; }
+
+    /* ── MAIN ── */
+    .page-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-header h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-header p {
+      font-size: 0.9rem;
+      color: var(--gray-text);
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 4px;
+      background: var(--crimson);
+      border-radius: 2px;
+      margin: 0.75rem auto 0;
+    }
+
+    /* ── CARDS ── */
+    .cards-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    @media (max-width: 560px) {
+      .cards-row { grid-template-columns: 1fr; max-width: 340px; }
+    }
+
+    .round-card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-light);
+      border-radius: 14px;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      box-shadow: 0 2px 12px rgba(11,46,89,0.07);
+    }
+
+    .round-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 36px rgba(11,46,89,0.15);
+      border-color: var(--navy);
+    }
+
+    /* Red top accent */
+    .card-accent {
+      height: 5px;
+      background: var(--crimson);
+      width: 100%;
+    }
+
+    .card-body {
+      padding: 2rem 1.75rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
+    }
+
+    .card-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--crimson);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.83rem;
+      color: var(--gray-text);
+      line-height: 1.5;
+    }
+
+    .card-footer {
+      padding: 0.85rem 1.75rem;
+      border-top: 1px solid var(--gray-light);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--navy);
+      transition: color 0.2s;
+    }
+
+    .round-card:hover .card-footer { color: var(--crimson); }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 0.9rem 1.5rem;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="../index.html" class="back-btn">← Dashboard</a>
+      <span class="topbar-divider">|</span>
+      <span class="topbar-title">Round 1</span>
+    </div>
+    <a href="scoreboard.html" class="btn-scoreboard" target="_blank">📊 Leaderboard</a>
+  </header>
+
+  <main class="page-main">
+
+    <div class="section-header">
+      <h1>Round 1 &nbsp;–&nbsp; Select Sub-Round</h1>
+      <p>Choose which round you want to conduct</p>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="cards-row">
+
+      <!-- General Round -->
+      <a href="general.html" class="round-card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">📋</div>
+          <span class="card-label">30 Questions</span>
+          <h2 class="card-title">General Round</h2>
+          <p class="card-desc">बीमा सम्बन्धी सामान्य ज्ञान तथा मुख्य प्रश्नहरू</p>
+        </div>
+        <div class="card-footer">Start General Round →</div>
+      </a>
+
+      <!-- Tie-Breaker Round -->
+      <a href="tiebreaker.html" class="round-card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">⚡</div>
+          <span class="card-label">5 Questions</span>
+          <h2 class="card-title">Tie-Breaker Round</h2>
+          <p class="card-desc">बराबरी भएमा निर्णायक प्रश्नोत्तर प्रतियोगिता</p>
+        </div>
+        <div class="card-footer">Start Tie-Breaker →</div>
+      </a>
+
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    Nepal Insurance Authority (NIA) &nbsp;|&nbsp; Koshi Province Office &nbsp;|&nbsp; Quiz Competition Management System
+  </footer>
+
+</body>
+</html>
