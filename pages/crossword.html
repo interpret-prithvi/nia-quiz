@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crossword Round – NIA Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:      #0B2E59;
+      --navy-dark: #071e3d;
+      --crimson:   #B22222;
+      --white:     #ffffff;
+      --gray-bg:   #f4f6f9;
+      --gray-light:#e8ecf1;
+      --gray-text: #5a6a7e;
+      --font:      'Noto Sans Devanagari', 'Segoe UI', 'Arial Unicode MS', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--gray-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .back-btn {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: var(--crimson);
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: #8b1a1a; }
+
+    .topbar-divider { opacity: 0.3; }
+
+    .topbar-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .btn-scoreboard {
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: var(--white);
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-scoreboard:hover { background: rgba(255,255,255,0.22); }
+
+    /* ── MAIN ── */
+    .page-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.5rem 3rem;
+    }
+
+    .page-heading {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .page-heading::before,
+    .page-heading::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 2px;
+      background: var(--crimson);
+      border-radius: 1px;
+    }
+
+    /* ── IMAGE CONTAINER ── */
+    .crossword-wrap {
+      background: var(--white);
+      border: 1px solid var(--gray-light);
+      border-top: 4px solid var(--navy);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 24px rgba(11,46,89,0.1);
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .crossword-img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      cursor: zoom-in;
+      transition: box-shadow 0.2s;
+    }
+
+    .crossword-img:hover {
+      box-shadow: 0 4px 20px rgba(11,46,89,0.15);
+    }
+
+    .zoom-hint {
+      font-size: 0.78rem;
+      color: var(--gray-text);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 95vh;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      color: var(--white);
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      padding: 0.9rem 1.5rem;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="../index.html" class="back-btn">← Main Page</a>
+      <span class="topbar-divider">|</span>
+      <span class="topbar-title">Crossword Round</span>
+    </div>
+    <a href="scoreboard.html" class="btn-scoreboard" target="_blank">📊 Leaderboard</a>
+  </header>
+
+  <!-- MAIN -->
+  <main class="page-main">
+
+    <div class="page-heading">Round 2 &nbsp;–&nbsp; Crossword</div>
+
+    <div class="crossword-wrap">
+      <img
+        src="../crossword.png"
+        alt="Crossword Puzzle"
+        class="crossword-img"
+        id="crosswordImg"
+        onerror="this.alt='Image not found. Make sure crossword.png is in the quiz-competition folder.'; this.style.padding='2rem'; this.style.background='#f4f6f9'; this.style.color='#5a6a7e';"
+      />
+      <p class="zoom-hint">Click on the image to zoom in</p>
+    </div>
+
+  </main>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+    <img src="../crossword.png" alt="Crossword Puzzle Zoomed" />
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    Nepal Insurance Authority (NIA) &nbsp;|&nbsp; Koshi Province Office &nbsp;|&nbsp; Quiz Competition Management System
+  </footer>
+
+  <script>
+    var img      = document.getElementById('crosswordImg');
+    var lightbox = document.getElementById('lightbox');
+    var closeBtn = document.getElementById('lightboxClose');
+
+    img.addEventListener('click', function () {
+      lightbox.classList.add('open');
+    });
+
+    closeBtn.addEventListener('click', function () {
+      lightbox.classList.remove('open');
+    });
+
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) lightbox.classList.remove('open');
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') lightbox.classList.remove('open');
+    });
+  </script>
+
+</body>
+</html>
