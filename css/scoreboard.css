@@ -1,0 +1,224 @@
+/* ══════════════════════════════════════════════
+   SCOREBOARD CSS – NIA Quiz
+   ══════════════════════════════════════════════ */
+
+:root {
+  --navy:      #0B2E59;
+  --navy-dark: #071e3d;
+  --navy-light:#d6e4f7;
+  --crimson:   #B22222;
+  --white:     #ffffff;
+  --gray-bg:   #f4f6f9;
+  --gray-light:#e8ecf1;
+  --gray-text: #5a6a7e;
+  --text-dark: #0d1b2a;
+  --gold:      #b8860b;
+  --gold-bg:   #fffbf0;
+  --silver:    #6b7a8d;
+  --silver-bg: #f5f6f8;
+  --bronze:    #8b4513;
+  --bronze-bg: #fdf5f0;
+  --font:      'Noto Sans Devanagari', 'Segoe UI', 'Arial Unicode MS', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--gray-bg);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HEADER ── */
+.sb-header {
+  background: var(--navy);
+  color: var(--white);
+  padding: 1.25rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+}
+
+.sb-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sb-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+.sb-event-label {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin-bottom: 0.2rem;
+}
+
+.sb-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.sb-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-reset-scores {
+  background: var(--crimson);
+  border: 1.5px solid var(--crimson);
+  color: var(--white);
+  padding: 0.45rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background 0.2s;
+}
+.btn-reset-scores:hover { background: #8b1a1a; border-color: #8b1a1a; }
+
+.btn-back-dash {
+  background: var(--crimson);
+  color: var(--white);
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-back-dash:hover { background: #8b1a1a; }
+
+/* ── MAIN TABLE ── */
+.sb-main {
+  flex: 1;
+  padding: 2.5rem 2.5rem;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sb-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(11,46,89,0.1);
+  border: 1px solid var(--gray-light);
+}
+
+.sb-table thead {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.sb-table thead th {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+
+.col-rank  { width: 90px;  text-align: center; }
+.col-score { width: 160px; text-align: center; }
+
+.sb-table tbody tr {
+  border-bottom: 1px solid var(--gray-light);
+  transition: background 0.15s;
+}
+.sb-table tbody tr:last-child { border-bottom: none; }
+
+/* Top 3 row colors */
+.sb-table tbody tr.rank-1 { background: var(--gold-bg); }
+.sb-table tbody tr.rank-2 { background: var(--silver-bg); }
+.sb-table tbody tr.rank-3 { background: var(--bronze-bg); }
+.sb-table tbody tr:not(.rank-1):not(.rank-2):not(.rank-3):hover { background: var(--gray-bg); }
+
+.sb-table tbody td {
+  padding: 1.1rem 1.5rem;
+  vertical-align: middle;
+}
+
+/* Rank cell */
+.rank-cell { text-align: center; }
+
+.rank-num {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.rank-1 .rank-num { color: var(--gold); font-size: 1.3rem; }
+.rank-2 .rank-num { color: var(--silver); font-size: 1.2rem; }
+.rank-3 .rank-num { color: var(--bronze); font-size: 1.1rem; }
+
+/* School cell */
+.school-cell {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+.rank-1 .school-cell { font-weight: 800; color: var(--navy); font-size: 1.05rem; }
+
+/* Score cell */
+.score-cell { text-align: center; }
+
+.score-val {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--navy);
+  background: var(--navy-light);
+  padding: 0.3rem 1.1rem;
+  border-radius: 999px;
+  min-width: 64px;
+  text-align: center;
+}
+
+.rank-1 .score-val { background: #fdedb0; color: var(--gold); }
+.rank-2 .score-val { background: #e8ecf1; color: var(--silver); }
+.rank-3 .score-val { background: #f3e8e0; color: var(--bronze); }
+
+/* Empty state */
+.sb-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--gray-text);
+  font-size: 1rem;
+}
+
+/* ── FOOTER ── */
+.sb-footer {
+  background: var(--navy-dark);
+  color: rgba(255,255,255,0.75);
+  text-align: center;
+  padding: 1rem 1.5rem;
+  font-size: 0.82rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .sb-header { padding: 1rem 1.25rem; }
+  .sb-main   { padding: 1.25rem; }
+  .sb-table tbody td,
+  .sb-table thead th { padding: 0.8rem 0.9rem; }
+}

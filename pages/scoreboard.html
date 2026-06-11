@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard – NIA Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/scoreboard.css" />
+</head>
+<body>
+
+  <header class="sb-header">
+    <div class="sb-header-inner">
+      <img src="../nia.png" alt="NIA Logo" class="sb-logo"
+        onerror="this.style.display='none'" />
+      <div class="sb-header-text">
+        <p class="sb-event-label">बीमा सम्बन्धी कोशी प्रदेश स्तरिय हाजिरी जवाफ प्रतियोगिता – २०८३</p>
+        <h1 class="sb-title">Live Leaderboard</h1>
+      </div>
+    </div>
+    <div class="sb-header-actions">
+      <button class="btn-reset-scores" onclick="resetScores()">↺ Reset All Scores</button>
+      <a href="../index.html" class="btn-back-dash">← Dashboard</a>
+    </div>
+  </header>
+
+  <main class="sb-main">
+    <table class="sb-table" id="sbTable">
+      <thead>
+        <tr>
+          <th class="col-rank">Rank</th>
+          <th class="col-school">विद्यालय / School</th>
+          <th class="col-score">Total Score</th>
+        </tr>
+      </thead>
+      <tbody id="sbBody">
+      </tbody>
+    </table>
+  </main>
+
+  <footer class="sb-footer">
+    Nepal Insurance Authority (NIA) &nbsp;|&nbsp; Koshi Province Office &nbsp;|&nbsp; Quiz Competition Management System
+  </footer>
+
+  <script src="../js/scoreboard.js"></script>
+</body>
+</html>

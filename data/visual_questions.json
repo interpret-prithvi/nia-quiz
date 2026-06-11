@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "question": "Identify the landmark shown in the image.",
+    "image": "../assets/visuals/visual1.jpg",
+    "answer": "Eiffel Tower",
+    "hint": "Located in Paris, France",
+    "category": "Landmarks"
+  },
+  {
+    "id": 2,
+    "question": "Which famous scientist is depicted here?",
+    "image": "../assets/visuals/visual2.jpg",
+    "answer": "Albert Einstein",
+    "hint": "Known for the theory of relativity",
+    "category": "Famous People"
+  },
+  {
+    "id": 3,
+    "question": "Name the animal in the image.",
+    "image": "../assets/visuals/visual3.jpg",
+    "answer": "Snow Leopard",
+    "hint": "Found in the mountains of Central Asia",
+    "category": "Animals"
+  }
+]

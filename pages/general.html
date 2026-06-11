@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>General Round – NIA Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/general-round.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="../index.html" class="back-btn">← Dashboard</a>
+      <span class="topbar-divider">|</span>
+      <span class="topbar-title">General Round &nbsp;–&nbsp; <span id="qLabel">Q1 / 30</span></span>
+    </div>
+    <div class="topbar-right">
+      <a href="scoreboard.html" class="btn-scoreboard" target="_blank">📊 Show Leaderboard</a>
+    </div>
+  </header>
+
+  <div class="page-body">
+
+    <!-- ════════════════════════════════
+         LEFT: QUESTION NAVIGATOR
+    ════════════════════════════════ -->
+    <aside class="nav-panel">
+      <div class="nav-panel-title">Questions</div>
+      <div class="q-grid" id="qGrid">
+        <!-- 30 buttons injected by JS -->
+      </div>
+      <div class="nav-legend">
+        <span class="legend-dot done"></span> Done
+        <span class="legend-dot pending"></span> Pending
+        <span class="legend-dot active"></span> Current
+      </div>
+    </aside>
+
+    <!-- ════════════════════════════════
+         CENTER: QUESTION DISPLAY
+    ════════════════════════════════ -->
+    <main class="question-panel">
+      <div class="question-card">
+        <div class="question-meta">
+          <span class="q-number" id="qNumber">Question 1</span>
+          <span class="q-direction" id="qDirection">Clockwise · Team 1</span>
+        </div>
+        <div class="question-text" id="questionText">
+          <!-- Question loaded by JS -->
+        </div>
+      </div>
+
+      <div class="question-nav-btns">
+        <button class="btn-nav" id="prevBtn">← Prev</button>
+        <button class="btn-nav btn-nav-next" id="nextBtn">Next →</button>
+      </div>
+    </main>
+
+    <!-- ════════════════════════════════
+         RIGHT: SCORE ENTRY
+    ════════════════════════════════ -->
+    <aside class="score-panel">
+      <div class="score-panel-title">Score Entry</div>
+      <div class="schools-list" id="schoolsList">
+        <!-- Injected by JS -->
+      </div>
+    </aside>
+
+  </div>
+
+  <script src="../js/generalRound.js"></script>
+</body>
+</html>

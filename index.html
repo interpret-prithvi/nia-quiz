@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>बीमा सम्बन्धी कोशी प्रदेश स्तरिय हाजिरी जवाफ प्रतियोगिता - २०८३</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER / HERO BANNER
+  ═══════════════════════════════════════════ -->
+  <header class="hero-banner">
+    <div class="hero-inner">
+      <div class="hero-logo-wrap">
+        <img
+          src="./nia.png"
+          alt="Nepal Insurance Authority Logo"
+          class="hero-logo"
+          onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';"
+        />
+        <div id="logo-fallback" class="logo-fallback" style="display:none;">
+          <span>NIA</span>
+        </div>
+      </div>
+
+      <div class="hero-text">
+        <p class="hero-organizer-top">नेपाल बीमा प्राधिकरण</p>
+        <h1 class="hero-title">बीमा सम्बन्धी कोशी प्रदेश स्तरिय<br />हाजिरी जवाफ प्रतियोगिता - २०८३</h1>
+        <div class="hero-divider"></div>
+        <p class="hero-organizer">
+          आयोजकः नेपाल बीमा प्राधिकरण, कोशी प्रदेश कार्यालय, बिराटनगर, मोरङ
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- ═══════════════════════════════════════════
+         ROUND NAVIGATION
+    ═══════════════════════════════════════════ -->
+    <section class="section rounds-section">
+      <h2 class="section-title">
+        <span class="section-title-bar"></span>
+        प्रतियोगिता राउन्डहरू
+      </h2>
+
+      <div class="rounds-grid">
+
+        <a href="pages/general.html" class="round-card" aria-label="Round 1 – General Round">
+          <div class="round-card-accent"></div>
+          <div class="round-number">Round 1</div>
+          <div class="round-icon">📋</div>
+          <h3 class="round-name">General Round</h3>
+          <p class="round-desc">सामान्य ज्ञान तथा बीमा सम्बन्धी प्रश्नहरू</p>
+          <div class="round-footer">
+            <span class="round-link">Start Round →</span>
+          </div>
+        </a>
+
+        <a href="pages/crossword.html" class="round-card" aria-label="Round 2 – Crossword Round">
+          <div class="round-card-accent"></div>
+          <div class="round-number">Round 2</div>
+          <div class="round-icon">🔤</div>
+          <h3 class="round-name">Crossword Round</h3>
+          <p class="round-desc">शब्द खोज तथा वर्ग पहेली प्रतियोगिता</p>
+          <div class="round-footer">
+            <span class="round-link">Start Round →</span>
+          </div>
+        </a>
+
+        <a href="pages/visual.html" class="round-card" aria-label="Round 3 – Visual Round">
+          <div class="round-card-accent"></div>
+          <div class="round-number">Round 3</div>
+          <div class="round-icon">🖼️</div>
+          <h3 class="round-name">Visual Round</h3>
+          <p class="round-desc">चित्र पहिचान तथा दृश्य आधारित प्रश्नहरू</p>
+          <div class="round-footer">
+            <span class="round-link">Start Round →</span>
+          </div>
+        </a>
+
+        <a href="pages/rapidfire.html" class="round-card" aria-label="Round 4 – Rapid Fire Round">
+          <div class="round-card-accent"></div>
+          <div class="round-number">Round 4</div>
+          <div class="round-icon">⚡</div>
+          <h3 class="round-name">Rapid Fire Round</h3>
+          <p class="round-desc">छिटो छिटो प्रश्नोत्तर प्रतियोगिता</p>
+          <div class="round-footer">
+            <span class="round-link">Start Round →</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         LIVE LEADERBOARD
+    ═══════════════════════════════════════════ -->
+    <section class="section leaderboard-section">
+      <div class="leaderboard-card">
+
+        <div class="leaderboard-header">
+          <div class="leaderboard-title-wrap">
+            <span class="live-dot" title="Live"></span>
+            <h2 class="leaderboard-title">Live Leaderboard</h2>
+          </div>
+          <button class="btn-reset" id="resetBtn" title="Reset all scores">
+            ↺ Reset Scores
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="leaderboard-table" id="leaderboardTable">
+            <thead>
+              <tr>
+                <th class="col-rank">S.N.</th>
+                <th class="col-school">विद्यालय / School</th>
+                <th class="col-score">Score</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <p class="leaderboard-note">
+          * Scores update automatically from round pages.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <p>Nepal Insurance Authority (NIA) &nbsp;|&nbsp; Koshi Province Office &nbsp;|&nbsp; Quiz Competition Management System</p>
+    <p class="footer-sub">बिराटनगर, मोरङ &nbsp;•&nbsp; २०८३</p>
+  </footer>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

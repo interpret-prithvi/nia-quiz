@@ -1,0 +1,485 @@
+/* ══════════════════════════════════════════════
+   GENERAL ROUND CSS – NIA Quiz
+   ══════════════════════════════════════════════ */
+
+:root {
+  --navy:        #0B2E59;
+  --navy-dark:   #071e3d;
+  --navy-light:  #d6e4f7;
+  --crimson:     #B22222;
+  --white:       #ffffff;
+  --gray-bg:     #f4f6f9;
+  --gray-light:  #e8ecf1;
+  --gray-mid:    #c5cdd8;
+  --gray-text:   #5a6a7e;
+  --text-dark:   #0d1b2a;
+  --success:     #1a7a3c;
+  --success-bg:  #d4edda;
+  --font:        'Noto Sans Devanagari', 'Segoe UI', 'Arial Unicode MS', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--gray-bg);
+  color: var(--text-dark);
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--navy);
+  color: var(--white);
+  padding: 0.7rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.back-btn {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.back-btn:hover { opacity: 1; }
+
+.topbar-divider { opacity: 0.3; }
+
+.topbar-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.btn-scoreboard {
+  background: var(--crimson);
+  color: var(--white);
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-scoreboard:hover { background: #8b1a1a; }
+
+/* ── PAGE BODY ── */
+.page-body {
+  display: grid;
+  grid-template-columns: 220px 1fr 260px;
+  gap: 0;
+  height: calc(100vh - 48px);
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .page-body {
+    grid-template-columns: 180px 1fr 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-body {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow: auto;
+  }
+}
+
+/* ── LEFT NAV PANEL ── */
+.nav-panel {
+  background: var(--white);
+  border-right: 1px solid var(--gray-light);
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nav-panel-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gray-text);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.q-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+/* Each question button wrapper */
+.q-btn-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Small circle indicator — now a proper button with bigger hit target */
+.q-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-mid);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  flex-shrink: 0;
+  padding: 0;
+  display: block;
+}
+
+.q-circle:hover {
+  border-color: var(--success);
+  transform: scale(1.2);
+}
+
+.q-circle.done {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+/* Question number button */
+.q-btn {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1.5px solid var(--gray-light);
+  border-radius: 6px;
+  background: var(--white);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.q-btn:hover {
+  border-color: var(--navy);
+  background: var(--navy-light);
+  color: var(--navy);
+}
+
+.q-btn.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+
+.q-btn.done-btn {
+  background: var(--success-bg);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.q-btn.active.done-btn {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+
+/* Legend */
+.nav-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--gray-text);
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--gray-light);
+}
+
+.nav-legend span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.legend-dot.done    { background: var(--success); }
+.legend-dot.pending { background: transparent; border: 1.5px solid var(--gray-mid); }
+.legend-dot.active  { background: var(--navy); }
+
+/* ── CENTER QUESTION PANEL ── */
+.question-panel {
+  padding: 2rem 2.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.question-card {
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  border-top: 4px solid var(--navy);
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 12px rgba(11,46,89,0.07);
+  flex: 1;
+}
+
+.question-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.q-number {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--crimson);
+}
+
+.q-direction {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--navy);
+  background: var(--navy-light);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+}
+
+.question-text {
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.7;
+  color: var(--text-dark);
+  min-height: 120px;
+}
+
+/* Nav buttons */
+.question-nav-btns {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-nav {
+  padding: 0.6rem 1.5rem;
+  border: 1.5px solid var(--navy);
+  border-radius: 7px;
+  background: var(--white);
+  color: var(--navy);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-nav:hover {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.btn-nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn-nav-next {
+  background: var(--navy);
+  color: var(--white);
+}
+.btn-nav-next:hover {
+  background: var(--navy-dark);
+}
+
+/* ── RIGHT SCORE PANEL ── */
+.score-panel {
+  background: var(--white);
+  border-left: 1px solid var(--gray-light);
+  overflow-y: auto;
+  padding: 1rem 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.score-panel-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gray-text);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.schools-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+/* Individual school row */
+.school-row {
+  background: var(--gray-bg);
+  border: 1px solid var(--gray-light);
+  border-radius: 8px;
+  padding: 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.school-name-input {
+  width: 100%;
+  border: 1px solid var(--gray-light);
+  border-radius: 5px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.82rem;
+  font-family: var(--font);
+  background: var(--white);
+  color: var(--text-dark);
+  font-weight: 600;
+  transition: border-color 0.2s;
+}
+
+.school-name-input:focus {
+  outline: none;
+  border-color: var(--navy);
+}
+
+.school-score-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.school-total {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--navy);
+  min-width: 36px;
+  text-align: center;
+}
+
+.score-add-input {
+  width: 60px;
+  border: 1.5px solid var(--gray-light);
+  border-radius: 5px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: var(--font);
+  text-align: center;
+  background: var(--white);
+  color: var(--text-dark);
+  transition: border-color 0.2s;
+}
+
+.score-add-input:focus {
+  outline: none;
+  border-color: var(--crimson);
+}
+
+.btn-add-score {
+  padding: 0.35rem 0.65rem;
+  background: var(--crimson);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-add-score:hover { background: #8b1a1a; }
+
+.score-label {
+  font-size: 0.7rem;
+  color: var(--gray-text);
+  white-space: nowrap;
+}
+
+/* School name display row */
+.school-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.school-id-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: var(--navy);
+  color: var(--white);
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.school-name-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.3;
+}
+
+/* Save names button */
+.btn-save-names {
+  padding: 0.55rem 1rem;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: 7px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background 0.2s;
+  margin-top: auto;
+}
+.btn-save-names:hover { background: var(--navy-dark); }
+
+/* Flash feedback */
+.flash-green {
+  animation: flashGreen 0.5s ease;
+}
+
+@keyframes flashGreen {
+  0%   { background: var(--success-bg); }
+  100% { background: var(--gray-bg); }
+}

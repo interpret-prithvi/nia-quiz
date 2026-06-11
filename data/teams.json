@@ -1,0 +1,6 @@
+[
+  { "id": 1, "name": "Team Alpha", "score": 0, "color": "#e74c3c" },
+  { "id": 2, "name": "Team Beta", "score": 0, "color": "#3498db" },
+  { "id": 3, "name": "Team Gamma", "score": 0, "color": "#2ecc71" },
+  { "id": 4, "name": "Team Delta", "score": 0, "color": "#f39c12" }
+]

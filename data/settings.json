@@ -1,0 +1,20 @@
+{
+  "quizTitle": "Grand Quiz Competition",
+  "generalRound": {
+    "timePerQuestion": 30,
+    "pointsPerQuestion": 10,
+    "negativeMarking": false,
+    "negativePoints": 0
+  },
+  "visualRound": {
+    "timePerQuestion": 45,
+    "pointsPerQuestion": 15
+  },
+  "rapidFire": {
+    "timePerTeam": 60,
+    "pointsPerQuestion": 5
+  },
+  "crossword": {
+    "pointsPerWord": 10
+  }
+}
