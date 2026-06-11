@@ -2,19 +2,18 @@
  * visualRound.js
  * Visual Round – NIA Koshi Province Quiz Competition
  *
- * Questions 1–8 use image pairs:
- *   ../visualround/Nq.png  = question image for Q N
- *   ../visualround/Na.png  = answer image for Q N
+ * Q1–8  : question image  ../visualround/Nq.png
+ *          answer image   ../visualround/Na.png
  *
- * Scores are cumulative — they build on whatever is already in
- * localStorage under the key 'quizTeams' (set by previous rounds).
+ * Q9–16 : question image  ../visualround/<name>.png
+ *          answer         text string (hardcoded)
  */
 
 (function () {
   'use strict';
 
   /* ═══════════════════════════════════════
-     FIXED SCHOOL REGISTRY  (IDs must stay stable across all rounds)
+     FIXED SCHOOL REGISTRY
   ═══════════════════════════════════════ */
   var SCHOOLS = [
     { id: 1, name: 'Shree Pokhariya Secondary School' },
@@ -27,22 +26,35 @@
 
   /* ═══════════════════════════════════════
      QUESTION DEFINITIONS
-     q = path to question image
-     a = path to answer image
+     type: 'image'  → show answer image (Na.png)
+     type: 'text'   → show answer as text string
   ═══════════════════════════════════════ */
-  var QUESTIONS = [];
-  for (var n = 1; n <= 8; n++) {
-    QUESTIONS.push({
-      id: n,
-      q: '../visualround/' + n + 'q.png',
-      a: '../visualround/' + n + 'a.png'
-    });
-  }
+  var QUESTIONS = [
+    // Q1–8: image question + image answer
+    { id: 1,  q: '../visualround/1q.png', aType: 'image', a: '../visualround/1a.png' },
+    { id: 2,  q: '../visualround/2q.png', aType: 'image', a: '../visualround/2a.png' },
+    { id: 3,  q: '../visualround/3q.png', aType: 'image', a: '../visualround/3a.png' },
+    { id: 4,  q: '../visualround/4q.png', aType: 'image', a: '../visualround/4a.png' },
+    { id: 5,  q: '../visualround/5q.png', aType: 'image', a: '../visualround/5a.png' },
+    { id: 6,  q: '../visualround/6q.png', aType: 'image', a: '../visualround/6a.png' },
+    { id: 7,  q: '../visualround/7q.png', aType: 'image', a: '../visualround/7a.png' },
+    { id: 8,  q: '../visualround/8q.png', aType: 'image', a: '../visualround/8a.png' },
+
+    // Q9–16: named image question + text answer
+    { id: 9,  q: '../visualround/9. Agriculture Insurance.png',       aType: 'text', a: 'Agriculture Insurance' },
+    { id: 10, q: '../visualround/10. Aviation Insurance.png',          aType: 'text', a: 'Aviation Insurance' },
+    { id: 11, q: '../visualround/11. Engineering Insurance.png',       aType: 'text', a: 'Engineering Insurance' },
+    { id: 12, q: '../visualround/12. health:medical insurance.png',    aType: 'text', a: 'Health / Medical Insurance' },
+    { id: 13, q: '../visualround/13. Life Insurance.png',              aType: 'text', a: 'Life Insurance' },
+    { id: 14, q: '../visualround/14. Marine Insurance.png',            aType: 'text', a: 'Marine Insurance' },
+    { id: 15, q: '../visualround/15. Motor Insurance.png',             aType: 'text', a: 'Motor Insurance' },
+    { id: 16, q: '../visualround/16. Property Insurance.png',          aType: 'text', a: 'Property Insurance' }
+  ];
 
   /* ─── Constants ─── */
-  var TOTAL_Q   = 8;
-  var TEAMS_KEY = 'quizTeams';        // shared key — same as all other rounds
-  var DONE_KEY  = 'visualDone';       // visual-round-specific done tracking
+  var TOTAL_Q   = 16;
+  var TEAMS_KEY = 'quizTeams';
+  var DONE_KEY  = 'visualDone';
 
   /* ─── State ─── */
   var currentQ      = 0;
@@ -57,13 +69,14 @@
   var questionImg  = document.getElementById('questionImg');
   var answerBox    = document.getElementById('answerBox');
   var answerImg    = document.getElementById('answerImg');
+  var answerText   = document.getElementById('answerText');
   var showAnsBtn   = document.getElementById('showAnsBtn');
   var schoolsList  = document.getElementById('schoolsList');
   var prevBtn      = document.getElementById('prevBtn');
   var nextBtn      = document.getElementById('nextBtn');
 
   /* ═══════════════════════════════════════
-     PREV / NEXT NAVIGATION
+     PREV / NEXT
   ═══════════════════════════════════════ */
   prevBtn.addEventListener('click', function () {
     if (currentQ > 0) goTo(currentQ - 1);
@@ -74,47 +87,69 @@
   });
 
   /* ═══════════════════════════════════════
-     SHOW / HIDE ANSWER BUTTON
+     SHOW / HIDE ANSWER
   ═══════════════════════════════════════ */
   showAnsBtn.addEventListener('click', function () {
     if (answerVisible) {
-      answerBox.style.display    = 'none';
-      showAnsBtn.textContent     = '👁 Show Answer';
-      showAnsBtn.classList.remove('btn-ans-active');
-      answerVisible = false;
+      hideAnswer();
     } else {
-      var q = QUESTIONS[currentQ];
-      answerImg.src              = q ? q.a : '';
-      answerImg.alt              = 'Answer for Question ' + (currentQ + 1);
-      answerBox.style.display    = 'block';
-      showAnsBtn.textContent     = '🙈 Hide Answer';
-      showAnsBtn.classList.add('btn-ans-active');
-      answerVisible = true;
+      showAnswer();
     }
   });
+
+  function showAnswer() {
+    var q = QUESTIONS[currentQ];
+    if (!q) return;
+
+    answerBox.style.display = 'block';
+
+    if (q.aType === 'image') {
+      answerImg.src           = q.a;
+      answerImg.alt           = 'Answer for Question ' + (currentQ + 1);
+      answerImg.style.display = 'block';
+      answerText.style.display = 'none';
+      answerText.textContent  = '';
+    } else {
+      // text answer
+      answerText.textContent   = q.a;
+      answerText.style.display = 'block';
+      answerImg.style.display  = 'none';
+      answerImg.src            = '';
+    }
+
+    showAnsBtn.textContent = '🙈 Hide Answer';
+    showAnsBtn.classList.add('btn-ans-active');
+    answerVisible = true;
+  }
+
+  function hideAnswer() {
+    answerBox.style.display  = 'none';
+    answerImg.src            = '';
+    answerImg.style.display  = 'none';
+    answerText.textContent   = '';
+    answerText.style.display = 'none';
+    showAnsBtn.textContent   = '� Show Answer';
+    showAnsBtn.classList.remove('btn-ans-active');
+    answerVisible = false;
+  }
 
   /* ═══════════════════════════════════════
      LOAD / SAVE
   ═══════════════════════════════════════ */
   function loadState() {
-    /* Done set — visual round only */
     try {
       var raw = localStorage.getItem(DONE_KEY);
       if (raw) doneSet = new Set(JSON.parse(raw));
     } catch (_) {}
 
-    /* Teams — cumulative across ALL rounds */
     try {
       var raw2 = localStorage.getItem(TEAMS_KEY);
       if (raw2) teams = JSON.parse(raw2);
     } catch (_) {}
 
-    /* Ensure every school in our registry exists in teams */
     SCHOOLS.forEach(function (school) {
       var exists = teams.find(function (t) { return t.id === school.id; });
-      if (!exists) {
-        teams.push({ id: school.id, name: school.name, score: 0 });
-      }
+      if (!exists) teams.push({ id: school.id, name: school.name, score: 0 });
     });
 
     saveTeams();
@@ -143,7 +178,6 @@
         wrap.className = 'q-btn-wrap';
         wrap.setAttribute('data-idx', idx);
 
-        /* Small circle — toggle done/pending */
         var circle = document.createElement('button');
         circle.type      = 'button';
         circle.className = 'q-circle' + (doneSet.has(idx) ? ' done' : '');
@@ -153,7 +187,6 @@
           toggleDone(idx);
         });
 
-        /* Question number button */
         var btn = document.createElement('button');
         btn.type      = 'button';
         btn.className = 'q-btn' +
@@ -190,18 +223,12 @@
   }
 
   /* ═══════════════════════════════════════
-     NAVIGATE TO QUESTION
+     NAVIGATE
   ═══════════════════════════════════════ */
   function goTo(idx) {
     if (idx < 0 || idx >= TOTAL_Q) return;
     currentQ = idx;
-
-    /* Always hide answer when changing question */
-    answerBox.style.display    = 'none';
-    showAnsBtn.textContent     = '👁 Show Answer';
-    showAnsBtn.classList.remove('btn-ans-active');
-    answerVisible = false;
-
+    hideAnswer();
     renderQuestion();
     updateGrid();
     updateNavBtns();
@@ -211,8 +238,10 @@
     var q = QUESTIONS[currentQ];
     qLabel.textContent  = 'Q' + (currentQ + 1) + ' / ' + TOTAL_Q;
     qNumber.textContent = 'Question ' + (currentQ + 1);
-    questionImg.src     = q ? q.q : '';
-    questionImg.alt     = 'Question ' + (currentQ + 1);
+    if (q) {
+      questionImg.src = q.q;
+      questionImg.alt = 'Visual Question ' + (currentQ + 1);
+    }
   }
 
   function updateNavBtns() {
@@ -221,7 +250,7 @@
   }
 
   /* ═══════════════════════════════════════
-     SCORE PANEL — right side
+     SCORE PANEL
   ═══════════════════════════════════════ */
   function buildSchoolsPanel() {
     schoolsList.innerHTML = '';
@@ -234,16 +263,13 @@
       row.id        = 'school-row-' + school.id;
       row.setAttribute('data-school-id', school.id);
 
-      /* School name */
       var nameRow = document.createElement('div');
       nameRow.className = 'school-name-row';
-
       var nameLabel = document.createElement('span');
       nameLabel.className   = 'school-name-label';
       nameLabel.textContent = school.name;
       nameRow.appendChild(nameLabel);
 
-      /* Score row */
       var scoreRow = document.createElement('div');
       scoreRow.className = 'school-score-row';
 
@@ -267,7 +293,6 @@
       addBtn.className   = 'btn-add-score';
       addBtn.textContent = '+ Add';
 
-      /* Closure so each row captures its own schoolId and input */
       (function (sid, inp) {
         addBtn.addEventListener('click', function () { addScore(sid, inp); });
         inp.addEventListener('keydown', function (e) {
@@ -289,25 +314,18 @@
   function addScore(schoolId, inputEl) {
     var val = parseInt(inputEl.value, 10);
     if (isNaN(val) || val < 0) { inputEl.value = ''; return; }
-
     var team = getTeamById(schoolId);
     if (!team) return;
-
     team.score += val;
     saveTeams();
-
-    /* Update displayed total */
     var totalSpan = document.getElementById('total-' + schoolId);
     if (totalSpan) totalSpan.textContent = team.score;
-
-    /* Flash the row green */
     var row = document.getElementById('school-row-' + schoolId);
     if (row) {
       row.classList.remove('flash-green');
-      void row.offsetWidth; /* reflow to restart animation */
+      void row.offsetWidth;
       row.classList.add('flash-green');
     }
-
     inputEl.value = '';
     inputEl.focus();
   }

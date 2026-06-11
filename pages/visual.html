@@ -17,7 +17,7 @@
     <div class="topbar-left">
       <a href="../index.html" class="back-btn">← Dashboard</a>
       <span class="topbar-divider">|</span>
-      <span class="topbar-title">Visual Round &nbsp;–&nbsp; <span id="qLabel">Q1 / 8</span></span>
+      <span class="topbar-title">Visual Round &nbsp;–&nbsp; <span id="qLabel">Q1 / 16</span></span>
     </div>
     <div class="topbar-right">
       <a href="scoreboard.html" class="btn-scoreboard" target="_blank">📊 Show Leaderboard</a>
@@ -62,17 +62,21 @@
           />
         </div>
 
-        <!-- Answer Image — hidden until button clicked -->
+        <!-- Answer — hidden until button clicked -->
         <div class="answer-box" id="answerBox" style="display:none;">
           <span class="answer-label">उत्तर / Answer</span>
+          <!-- Image answer (Q1–8) -->
           <div class="visual-img-wrap answer-img-wrap">
             <img
               id="answerImg"
               src=""
               alt="Visual Answer"
               class="visual-img"
+              style="display:none;"
             />
           </div>
+          <!-- Text answer (Q9–16) -->
+          <div class="answer-text" id="answerText" style="display:none;"></div>
         </div>
 
         <button class="btn-show-answer" id="showAnsBtn" type="button">👁 Show Answer</button>

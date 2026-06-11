@@ -323,6 +323,15 @@ html, body {
   color: var(--success);
 }
 
+/* Text answer for Q9–16 */
+.answer-text {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.5;
+  padding: 0.5rem 0;
+}
+
 /* ── Show Answer Button ── */
 .btn-show-answer {
   align-self: flex-start;
